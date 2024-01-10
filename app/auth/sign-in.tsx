@@ -1,59 +1,149 @@
-import React, { useState } from 'react'
-import { View, StyleSheet } from 'react-native'
-import { TextInput, Button, Card, Title } from 'react-native-paper'
+import { globalStyles } from '@/styles/global.styles'
+import { Link, router } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
+import React from 'react'
+import { View } from 'react-native'
+import { Button, Text, TextInput } from 'react-native-paper'
 
-const LoginPage = () => {
-	const [username, setUsername] = useState('')
-	const [password, setPassword] = useState('')
+import ErrorValidation from '@/components/form/error-validation'
+import { ValidationSignIn, validationSignIn } from '@/schema/auth.schema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import {
+	Controller,
+	FormProvider,
+	SubmitHandler,
+	useForm,
+} from 'react-hook-form'
 
-	const handleLogin = () => {
-		// Handle login logic here
-		console.log('Login credentials', { username, password })
+const SignInPage = () => {
+	const form = useForm<ValidationSignIn>({
+		resolver: zodResolver(validationSignIn),
+		mode: 'onBlur',
+		defaultValues: {
+			email: 'email@mail.com',
+			password: 'password',
+		},
+	})
+
+	const handleLogin: SubmitHandler<ValidationSignIn> = (data) => {
+		console.log(form.formState.errors)
+		router.push('/tabs/home')
 	}
 
 	return (
-		<View style={styles.container}>
-			<Title style={styles.title}>Login</Title>
-			<TextInput
-				label="Username"
-				value={username}
-				onChangeText={(text) => setUsername(text)}
+		<View style={globalStyles.container}>
+			<StatusBar style="dark"></StatusBar>
+			<Text
+				variant="displaySmall"
+				style={{
+					fontWeight: 'bold',
+					marginBottom: 10,
+				}}
+			>
+				Login to your existing account
+			</Text>
+			<Text
+				style={{
+					marginBottom: 30,
+				}}
+			>
+				Enter your credentials below to access your account and continue using
+				the feature.
+			</Text>
+
+			<FormProvider {...form}>
+				<Controller
+					control={form.control}
+					name="email"
+					rules={{ required: true }}
+					render={({ field: { onChange, onBlur, value }, formState }) => (
+						<View
+							style={{
+								marginBottom: 16,
+							}}
+						>
+							<TextInput
+								label="Email"
+								placeholder="Enter email address"
+								onBlur={onBlur}
+								value={value}
+								onChangeText={(value) => onChange(value)}
+								error={!!form.formState.errors.email}
+								mode="outlined"
+							/>
+							<ErrorValidation
+								message={formState.errors.email?.message}
+							></ErrorValidation>
+						</View>
+					)}
+				/>
+
+				<Controller
+					control={form.control}
+					name="password"
+					rules={{ required: true }}
+					render={({ field: { onChange, onBlur, value }, formState }) => (
+						<View
+							style={{
+								marginBottom: 8,
+							}}
+						>
+							<TextInput
+								label="Password"
+								placeholder="Enter password"
+								secureTextEntry
+								onBlur={onBlur}
+								value={value}
+								onChangeText={(value) => onChange(value)}
+								error={!!form.formState.errors.password}
+								mode="outlined"
+							/>
+
+							<ErrorValidation
+								message={formState.errors.password?.message}
+							></ErrorValidation>
+						</View>
+					)}
+				/>
+				<Link
+					href={'/auth/forgot-password'}
+					style={{
+						marginBottom: 24,
+					}}
+				>
+					<Text>Forgot Password?</Text>
+				</Link>
+
+				<Button
+					mode="contained"
+					onPress={form.handleSubmit(handleLogin)}
+					style={globalStyles.button}
+					contentStyle={globalStyles.buttonContentStyle}
+					icon={'email'}
+				>
+					Login with Email
+				</Button>
+			</FormProvider>
+
+			<Text
+				variant="bodyMedium"
+				style={{
+					textAlign: 'center',
+					marginBottom: 8,
+				}}
+			>
+				or
+			</Text>
+
+			<Button
+				icon={'google'}
 				mode="outlined"
-				style={styles.input}
-			/>
-			<TextInput
-				label="Password"
-				value={password}
-				onChangeText={(text) => setPassword(text)}
-				secureTextEntry
-				mode="outlined"
-				style={styles.input}
-			/>
-			<Button mode="contained" onPress={handleLogin}>
-				Login
+				style={globalStyles.button}
+				contentStyle={globalStyles.buttonContentStyle}
+			>
+				Continue with Google
 			</Button>
 		</View>
 	)
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		padding: 20,
-		backgroundColor: '#f5f5f5',
-	},
-	card: {
-		padding: 5,
-		margin: 5,
-	},
-	title: {
-		textAlign: 'center',
-		marginBottom: 16,
-	},
-	input: {
-		marginBottom: 16,
-	},
-})
-
-export default LoginPage
+export default SignInPage

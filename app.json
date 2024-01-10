@@ -26,6 +26,9 @@
 			"bundler": "metro"
 		},
 		"plugins": ["expo-router"],
-		"scheme": "my-app"
+		"scheme": "my-app",
+		"experiments": {
+			"tsconfigPaths": true
+		}
 	}
 }
