@@ -5,7 +5,7 @@ import React from 'react'
 import { View } from 'react-native'
 import { Button, Text, TextInput } from 'react-native-paper'
 
-import ErrorValidation from '@/components/form/error-validation'
+import ErrorValidation from '@/components/general/error-validation'
 import {
 	ValidationSignIn,
 	ValidationSignUp,

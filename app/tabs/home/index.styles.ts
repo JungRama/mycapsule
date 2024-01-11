@@ -6,15 +6,14 @@ export const styles = StyleSheet.create({
 	backgroundImage: {
 		flex: 1,
 		width: width,
-		height: height,
+		height: 250,
 		justifyContent: 'flex-end',
 	},
 	overlay: {
 		height: '100%',
-		padding: 20,
-		alignItems: 'center',
+		padding: 15,
 		justifyContent: 'flex-end',
-		paddingBottom: 40,
+		paddingBottom: 20,
 	},
 	title: {
 		fontSize: 24,
@@ -22,12 +21,5 @@ export const styles = StyleSheet.create({
 		color: 'white',
 		textAlign: 'center',
 		marginBottom: 8,
-	},
-	subtitle: {
-		fontSize: 14,
-		color: 'white',
-		opacity: 0.7,
-		textAlign: 'center',
-		marginBottom: 24,
 	},
 })

@@ -9,7 +9,7 @@ import { router } from 'expo-router'
 const App = () => {
 	return (
 		<ImageBackground
-			source={require('../../assets/images/onboarding.png')}
+			source={require('@/assets/images/onboarding.png')}
 			style={styles.backgroundImage}
 		>
 			<StatusBar style="light"></StatusBar>
@@ -20,10 +20,13 @@ const App = () => {
 				end={{ x: 0.5, y: 1 }}
 				locations={[0, 0.45, 0.669]}
 			>
-				<Text style={styles.title}>Hire with Confidence</Text>
+				<Text style={styles.title}>
+					Yearly resolution success throughout daily action
+				</Text>
 				<Text style={styles.subtitle}>
-					Employers, Highlight Your Open Positions. Connect with the Best
-					Candidates. We'll Make Hiring Effortless.
+					Break down your objectives into monthly milestones and daily tasks,
+					ensuring consistent progress and adaptability. Celebrate small wins to
+					maintain motivation.
 				</Text>
 				<Button
 					mode="contained"
